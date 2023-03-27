@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Participant {
+  id               Int      @id @default(autoincrement())
+  firstName        String
+  lastName         String
+  email            String   @unique
+  phoneNumber      String
+  hackathonsNumber Int
+  experience       String
+  university       String
+  major            String
+  degree           String
+  gradYear         DateTime
+  cv               String?
+  github           String?
+  linkedIn         String?
+  hearedDatathon   String
+  motivation       String
+  hasTeam          Boolean
+  teamCode         String?
+  team             Team?    @relation(fields: [teamCode], references: [teamCode])
+}
+
+model Team {
+  id           Int           @id @default(autoincrement())
+  teamName     String
+  teamCode     String        @unique
+  participants Participant[]
+}
